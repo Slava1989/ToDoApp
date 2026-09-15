@@ -18,3 +18,14 @@ env-cleanup:
 	else \
 		echo "Clean up was canceled"; \
 	fi
+
+migrate-create:
+	@if [ -z "$(seq)" ]; then \
+		echo "No needed parameter `seq`." && \
+		exit 1; \
+	fi;
+
+	docker compose run --rm todoapp-postgres-migrate \
+		-ext sql \
+		-dir /migrations \
+		-seq "$(seq)"
